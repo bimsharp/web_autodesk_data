@@ -1,11 +1,11 @@
 require('dotenv').config();
 const axios = require('axios').default;
-const { AutodeskTokenTwoLegged, AutodeskTokenTwoLeggedError } = require('../models/postV2Token');
-
+const { AutodeskTokenTwoLegged } = require('../models/postV2Token');
+const { AutodeskError } = require('../../shared/AutodeskError');
 
 /**
- * Wrapper for Auotdesk API at https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-2-legged-token/
- * @returns {AutodeskTokenTwoLeggedError}
+ * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-2-legged-token/
+ * @returns {AutodeskTokenTwoLegged | AutodeskError}
  */
 async function postTwoLegged() {
     const concatenated = `${process.env.AUTODESK_CLIENT_ID}:${process.env.AUTODESK_CLIENT_SECRET}`;
@@ -27,7 +27,7 @@ async function postTwoLegged() {
     let result = await axios
         .post(url, body, { headers: configHeaders })
         .then(response => new AutodeskTokenTwoLegged(response?.data))
-        .catch(error => new AutodeskTokenTwoLeggedError(error));
+        .catch(error => new AutodeskError(error));
 
     return result;
 }
