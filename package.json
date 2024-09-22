@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/bimsharp/web_autodesk_data/issues"
   },
-  "homepage": "https://github.com/bimsharp/web_autodesk_data#readme"
+  "homepage": "https://github.com/bimsharp/web_autodesk_data#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  }
 }
