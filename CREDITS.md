@@ -9,10 +9,20 @@
   - docs: https://expressjs.com/
   - npm: https://www.npmjs.com/package/express
   - github: https://github.com/expressjs/express
+- **path**: The node:path module provides utilities for working with file and directory paths
+  - docs: https://nodejs.org/docs/latest/api/path.html
+  - npm: https://www.npmjs.com/package/path
+  - github: https://github.com/jinder/path
 - **pg**: Non-blocking PostgreSQL client for Node.js. Pure JavaScript and optional native libpq bindings.
   - docs: https://node-postgres.com/
   - npm: https://www.npmjs.com/package/pg
   - github: https://github.com/brianc/node-postgres
+
+## ISC License
+- **glob**: Match files using the patterns the shell uses.
+  - docs: https://github.com/isaacs/node-glob#readme
+  - npm: https://www.npmjs.com/package/glob
+  - github: https://github.com/isaacs/node-glob
 
 ## MSD-2-Clause license
 - **dotenv**: Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env.

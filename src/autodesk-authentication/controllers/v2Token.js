@@ -1,8 +1,13 @@
 require('dotenv').config();
 const axios = require('axios').default;
-const { AutodeskTokenTwoLegged, AutodeskTokenTwoLeggedError } = require('../models/autodesk-authentication');
+const { AutodeskTokenTwoLegged, AutodeskTokenTwoLeggedError } = require('../models/v2Token');
 
-async function autodeskAuthenticationTwoLegged() {
+
+/**
+ * Wrapper for Auotdesk API at https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-2-legged-token/
+ * @returns {AutodeskTokenTwoLeggedError}
+ */
+async function postTwoLegged() {
     const concatenated = `${process.env.AUTODESK_CLIENT_ID}:${process.env.AUTODESK_CLIENT_SECRET}`;
     const encoded = btoa(concatenated);
 
@@ -28,5 +33,5 @@ async function autodeskAuthenticationTwoLegged() {
 }
 
 module.exports = {
-    autodeskAuthenticationTwoLegged
+    postTwoLegged
 }
