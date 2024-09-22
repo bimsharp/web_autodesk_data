@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-const { postTwoLegged } = require('../controllers/v2Token');
+const { postTwoLegged } = require('../controllers/postV2Token');
 
 module.exports = function (app) {
 

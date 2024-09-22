@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios').default;
-const { AutodeskTokenTwoLegged, AutodeskTokenTwoLeggedError } = require('../models/v2Token');
+const { AutodeskTokenTwoLegged, AutodeskTokenTwoLeggedError } = require('../models/postV2Token');
 
 
 /**
