@@ -1,0 +1,19 @@
+{
+  "name": "web_autodesk_data",
+  "version": "1.0.0",
+  "description": "basic API for interacting with autodesk APIs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bimsharp/web_autodesk_data.git"
+  },
+  "author": "bimsharp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bimsharp/web_autodesk_data/issues"
+  },
+  "homepage": "https://github.com/bimsharp/web_autodesk_data#readme"
+}
