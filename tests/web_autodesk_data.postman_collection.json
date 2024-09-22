@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "e5bd01de-f9f4-4b05-b88c-25e3de967173",
+		"name": "web_autodesk_data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31944831"
+	},
+	"item": [
+		{
+			"name": "/autodesk-authentication/two-legged",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains access_token key\", function () {\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.include.keys(['access_token']);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"autodesk_access_token\", JSON.parse(pm.response.text()).access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/autodesk-authentication/two-legged",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"autodesk-authentication",
+						"two-legged"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/autodesk-data-management/hubs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const parsedRes = JSON.parse(pm.response.text());\r",
+							"pm.test(\"Body contains needed keys\", function () {\r",
+							"    \r",
+							"    pm.expect(parsedRes).to.include.keys(['data']);\r",
+							"    pm.expect(parsedRes.data[0]).to.include.keys(['id']);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"autodesk_hub_id\", parsedRes.data[0].id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/autodesk-data-management/hubs?autodesk_user_id={{autodesk_user_id}}&autodesk_access_token={{autodesk_access_token}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"autodesk-data-management",
+						"hubs"
+					],
+					"query": [
+						{
+							"key": "autodesk_user_id",
+							"value": "{{autodesk_user_id}}"
+						},
+						{
+							"key": "autodesk_access_token",
+							"value": "{{autodesk_access_token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "autodesk_access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "autodesk_hub_id",
+			"value": ""
+		},
+		{
+			"key": "autodesk_user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
