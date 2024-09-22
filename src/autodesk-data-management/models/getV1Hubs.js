@@ -19,8 +19,15 @@ class AutodeskHubs {
         });
     }
 }
+class GetAutodeskHubsPayload {
+    autodesk_access_token;
+    autodesk_user_id;
+
+    constructor() { }
+}
 
 module.exports = {
     AutodeskHubs,
-    AutodeskHub
+    AutodeskHub,
+    GetAutodeskHubsPayload
 }

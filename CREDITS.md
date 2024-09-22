@@ -29,3 +29,9 @@
   - docs: https://dotenvx.com/
   - npm: https://www.npmjs.com/package/dotenv
   - github: https://github.com/motdotla/dotenv/
+
+## BSD-3-Clause license
+- **joi**: The most powerful schema description language and data validator for JavaScript.
+  - docs: https://joi.dev/
+  - npm: https://www.npmjs.com/package/joi
+  - github: https://github.com/hapijs/joi
