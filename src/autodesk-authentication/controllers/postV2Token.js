@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios').default;
 const { AutodeskTokenTwoLegged } = require('../models/postV2Token');
-const { AutodeskError } = require('../../shared/AutodeskError');
+const { AutodeskError } = require('../../shared/models/AutodeskError');
 
 /**
  * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-2-legged-token/

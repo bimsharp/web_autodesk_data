@@ -2,8 +2,8 @@ require('dotenv').config();
 const axios = require('axios').default;
 const { AutodeskHubs } = require('../models/getV1Hubs');
 const schema = require('../validators/getV1Hubs');
-const { AutodeskError } = require('../../shared/AutodeskError');
-const { BuiltInError } = require('../../shared/BuiltInError');
+const { AutodeskError } = require('../../shared/models/AutodeskError');
+const { BuiltInError } = require('../../shared/models/BuiltInError');
 
 /**
  * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/data/v2/reference/http/hubs-GET/
@@ -29,6 +29,8 @@ async function get(params) {
         .get(url, { headers: configHeaders })
         .then(response => new AutodeskHubs(response?.data))
         .catch(error => new AutodeskError(error));
+
+    //@ToDo: store result in DB
 
     return result;
 }
