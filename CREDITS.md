@@ -9,6 +9,10 @@
   - docs: https://expressjs.com/
   - npm: https://www.npmjs.com/package/express
   - github: https://github.com/expressjs/express
+- **jest**: Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
+  - docs: https://jestjs.io/docs/api
+  - npm: https://www.npmjs.com/package/jest
+  - github: https://github.com/jestjs/jest
 - **path**: The node:path module provides utilities for working with file and directory paths
   - docs: https://nodejs.org/docs/latest/api/path.html
   - npm: https://www.npmjs.com/package/path
