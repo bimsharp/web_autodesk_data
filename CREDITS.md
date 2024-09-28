@@ -21,6 +21,16 @@
   - docs: https://node-postgres.com/
   - npm: https://www.npmjs.com/package/pg
   - github: https://github.com/brianc/node-postgres
+- **ts-node**: TypeScript execution and REPL for node.js, with source map and native ESM support.
+  - docs: https://typestrong.org/ts-node/
+  - npm: https://www.npmjs.com/package/ts-node
+  - github: https://github.com/TypeStrong/ts-node
+
+## Apache 2.0
+- **typescript**: TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
+  - docs: https://www.typescriptlang.org/
+  - npm: https://www.npmjs.com/package/typescript
+  - github: https://github.com/microsoft/TypeScript
 
 ## ISC License
 - **glob**: Match files using the patterns the shell uses.
