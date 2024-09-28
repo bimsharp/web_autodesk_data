@@ -1,0 +1,31 @@
+{
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "lib": [
+        "ES6"
+      ],
+      "esModuleInterop": true,
+    }
+  },
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "lib": [
+      "ES6"
+    ],
+    "allowJs": false,
+  },
+  "include": [
+    "./src/**/*",
+    "./tests/**/*"
+  ]
+}

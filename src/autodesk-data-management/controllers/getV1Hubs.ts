@@ -1,7 +1,8 @@
 require('dotenv').config();
-const axios = require('axios').default;
-const { AutodeskHubs } = require('../models/getV1Hubs');
-const schema = require('../validators/getV1Hubs');
+import Axios = require('axios');
+const axios = Axios.default;
+import models = require('../models/getV1Hubs');
+import validators = require('../validators/getV1Hubs');
 const { AutodeskError } = require('../../shared/models/AutodeskError');
 const { BuiltInError } = require('../../shared/models/BuiltInError');
 
@@ -9,12 +10,12 @@ const { BuiltInError } = require('../../shared/models/BuiltInError');
  * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/data/v2/reference/http/hubs-GET/
  * @returns {AutodeskHubs | AutodeskError | BuiltInError}
  */
-async function get(params) {
+export async function get(params: models.GetAutodeskHubs_Payload) {
 
     //validation
-    const { error } = schema.validate(params); 
+    const { error } = validators.schema.validate(params);
     if (error) {
-        return new BuiltInError( 'Bad Request', 400, `${error}` );
+        return new BuiltInError('Bad Request', 400, `${error}`);
     }
 
     //if we're here, we have apparently-properly-formed data and can make our API call
@@ -27,14 +28,10 @@ async function get(params) {
 
     let result = await axios
         .get(url, { headers: configHeaders })
-        .then(response => new AutodeskHubs(response?.data))
+        .then(response => new models.AutodeskHubs(response?.data))
         .catch(error => new AutodeskError(error));
 
     //@ToDo: store result in DB
 
     return result;
-}
-
-module.exports = {
-    get
 }

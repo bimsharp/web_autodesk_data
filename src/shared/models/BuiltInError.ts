@@ -1,15 +1,11 @@
-class BuiltInError {
+export class BuiltInError {
     code; //string
     message; //string
     status; //number, integer
 
-    constructor(code, status, message) {
+    constructor(code: string, status: string, message: string) {
         this.code = code;
         this.message = message;
         this.status = status;
     }
-}
-
-module.exports = {
-    BuiltInError
 }
