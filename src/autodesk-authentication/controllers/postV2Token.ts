@@ -28,7 +28,7 @@ export async function postTwoLegged() {
     let result = await axios
         .post(url, body, { headers: configHeaders })
         .then(response => new models.AutodeskTokenTwoLegged(response?.data))
-        .catch(error => new shared_models.AutodeskTokenTwoLeggedError(error));
+        .catch(error => new shared_models.AutodeskError(error));
 
     return result;
 }

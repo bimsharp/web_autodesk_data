@@ -3,7 +3,7 @@ export class BuiltInError {
     message; //string
     status; //number, integer
 
-    constructor(code: string, status: string, message: string) {
+    constructor(code: string, status: number, message: string) {
         this.code = code;
         this.message = message;
         this.status = status;

@@ -13,7 +13,7 @@ export interface IAutodeskResponse_ErrorConfig {
     url: string
 }
 
-export interface IAutodeskTokenTwoLeggedError {
+export interface IAutodeskError {
     code: string
     data: string
     method: string
@@ -23,7 +23,7 @@ export interface IAutodeskTokenTwoLeggedError {
     url: string
 }
 
-export class AutodeskTokenTwoLeggedError implements IAutodeskTokenTwoLeggedError {
+export class AutodeskError implements IAutodeskError {
     code; //string
     data; //string
     method; //string
