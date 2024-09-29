@@ -1,5 +1,5 @@
-import * as controllers from '../src/autodesk-authentication/controllers/postV2Token';
-import * as models from '../src/autodesk-authentication/models/postV2Token';
+import * as controllers from '../../src/autodesk-authentication/controllers/postV2TokenTwoLegged';
+import * as models from '../../src/autodesk-authentication/models/postV2TokenTwoLegged';
 
 const axios = require('axios');
 jest.mock('axios');

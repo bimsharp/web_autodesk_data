@@ -1,6 +1,6 @@
 
 require('dotenv').config();
-import controllers = require('../controllers/postV2Token');
+import controllers = require('../controllers/postV2TokenTwoLegged');
 import { Request, Response } from 'express';
 
 //@ts-ignore

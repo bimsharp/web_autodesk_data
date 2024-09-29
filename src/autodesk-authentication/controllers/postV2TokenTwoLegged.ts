@@ -1,7 +1,7 @@
 require('dotenv').config();
 import Axios = require('axios');
 const axios = Axios.default;
-import models = require('../models/postV2Token');
+import models = require('../models/postV2TokenTwoLegged');
 import shared_models = require('../../shared/models/AutodeskError');
 
 /**

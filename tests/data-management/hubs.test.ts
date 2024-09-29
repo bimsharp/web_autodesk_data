@@ -1,7 +1,7 @@
-import * as controllers from '../src/autodesk-data-management/controllers/getV1Hubs';
-import * as models from '../src/autodesk-data-management/models/getV1Hubs';
-import * as BuiltInError from '../src/shared/models/BuiltInError';
-import * as AutodeskError from '../src/shared/models/AutodeskError';
+import * as controllers from '../../src/autodesk-data-management/controllers/getV1Hubs';
+import * as models from '../../src/autodesk-data-management/models/getV1Hubs';
+import * as BuiltInError from '../../src/shared/models/BuiltInError';
+import * as AutodeskError from '../../src/shared/models/AutodeskError';
 
 require('dotenv').config();
 
