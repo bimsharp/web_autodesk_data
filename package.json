@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "tsc && node src/index.ts",
-    "test": "tsc && jest --config ./jest.config.ts /dist/tests/"
+    "test": "tsc && jest --config ./jest.config.ts /dist/test/"
   },
   "repository": {
     "type": "git",
