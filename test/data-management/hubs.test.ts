@@ -8,7 +8,7 @@ require('dotenv').config();
 const axios = require('axios');
 jest.mock('axios');
 
-test('postTwoLegged returns expected data shape', async () => {
+test('getV1Hubs returns expected data shape', async () => {
 
     const mockResponseRecord: models.IAutodeskResponse_Hub = {
         type: '',
@@ -32,7 +32,7 @@ test('postTwoLegged returns expected data shape', async () => {
     expect(result).toBeInstanceOf(models.AutodeskHubs);
 });
 
-test('postTwoLegged fails on unexpected response from Autodesk', async () => {
+test('getV1Hubs fails on unexpected response from Autodesk', async () => {
 
     const mockResponseRecord: models.IAutodeskResponse_Hub = {
         type: '',
