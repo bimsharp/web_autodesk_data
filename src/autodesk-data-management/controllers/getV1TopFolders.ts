@@ -7,7 +7,7 @@ import * as AutodeskError from '../../shared/models/AutodeskError';
 import * as BuiltInError from '../../shared/models/BuiltInError';
 
 /**
- * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/data/v2/reference/http/hubs-GET/
+ * Wrapper for Autodesk API at https://aps.autodesk.com/en/docs/data/v2/reference/http/hubs-hub_id-projects-project_id-topFolders-GET/
  * @returns {AutodeskFolders | AutodeskError | BuiltInError}
  */
 export async function get(params: models.GetAutodeskTopFolders_Payload) {
