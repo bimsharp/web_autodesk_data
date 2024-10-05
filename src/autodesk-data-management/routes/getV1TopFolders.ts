@@ -6,7 +6,7 @@ import * as models from '../models/getV1TopFolders';
 
 //@ts-ignore
 module.exports = function (app) {
-    app.get('/autodesk-data-management/top-folders', async (req: Request, res: Response) => {
+    app.get('/autodesk-data-management/folders-top', async (req: Request, res: Response) => {
 
         const params: models.GetAutodeskTopFolders_Payload = {
             autodesk_access_token: <string>req?.query?.autodesk_access_token ?? '',
