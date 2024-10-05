@@ -10,7 +10,7 @@ module.exports = function (app) {
 
         const params: models.GetAutodeskProjects_Payload = {
             autodesk_access_token: <string>req?.query?.autodesk_access_token ?? '',
-            autodesk_hub_id: <string>req?.query?.autodesk_access_token ?? '',
+            autodesk_hub_id: <string>req?.query?.autodesk_hub_id ?? '',
             autodesk_user_id: <string>req?.query?.autodesk_user_id ?? '',
         };
 
