@@ -11,6 +11,7 @@ import * as BuiltInError from '../../shared/models/BuiltInError';
  * @returns {AutodeskTokenThreeLegged | AutodeskError | BuiltInError}
  */
 export async function postThreeLegged(params: models.PostAutodeskTokenThreeLegged_Payload) {
+
     //validation
     const { error } = validators.schema.validate(params);
     if (error) {
@@ -25,7 +26,6 @@ export async function postThreeLegged(params: models.PostAutodeskTokenThreeLegge
 
     const body = {
         'grant_type': 'authorization_code',
-        'scope': `${process.env.AUTODESK_THREE_LEGGED_SCOPES_ENCODED}`,
         'code': `${params.authorization_code}`,
         'redirect_uri': `${process.env.AUTODESK_REDIRECT_URI}`,
     };
