@@ -1,0 +1,1402 @@
+{
+	"info": {
+		"_postman_id": "6111578e-0444-4372-acc7-1e271c4b7211",
+		"name": "Autodesk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31944831"
+	},
+	"item": [
+		{
+			"name": "data-management",
+			"item": [
+				{
+					"name": "three-legged",
+					"item": [
+						{
+							"name": "/data/v1/projects/:project_id/folders/:folder_id/search",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    pm.expect(parsedRes).to.include.keys(['data', 'included']);\r",
+											"    pm.expect(parsedRes.data[0]).to.include.keys(['id', 'type']);\r",
+											"    pm.expect(parsedRes.included[0]).to.include.keys(['id', 'type']);\r",
+											"});\r",
+											"\r",
+											"const modelVersion = parsedRes.data.filter(version => version.type === 'versions')[0];\r",
+											"const modelItem = parsedRes.included.filter(version => version.type === 'items')[0];\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_model_version_id\", modelVersion.id);\r",
+											"pm.collectionVariables.set(\"adsk_model_item_id\", modelItem.id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/data/v1/projects/:project_id/folders/:folder_id/search?filter[displayName]={{_adsk_model_name}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"data",
+										"v1",
+										"projects",
+										":project_id",
+										"folders",
+										":folder_id",
+										"search"
+									],
+									"query": [
+										{
+											"key": "filter[type]",
+											"value": "items",
+											"disabled": true
+										},
+										{
+											"key": "FILTERING_GUIDE_HOW_TO",
+											"value": "https://aps.autodesk.com/en/docs/data/v2/developers_guide/filtering/",
+											"disabled": true
+										},
+										{
+											"key": "filter[displayName]",
+											"value": "{{_adsk_model_name}}"
+										}
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "{{adsk_project_id}}"
+										},
+										{
+											"key": "folder_id",
+											"value": "{{adsk_top_folder_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "two-legged",
+					"item": [
+						{
+							"name": "/project/v1/hubs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    \r",
+											"    pm.expect(parsedRes).to.include.keys(['data']);\r",
+											"    pm.expect(parsedRes.data[0]).to.include.keys(['id']);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_hub_id\", parsedRes.data[0].id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_two_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/project/v1/hubs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"project",
+										"v1",
+										"hubs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/project/v1/hubs/:hub_id/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    \r",
+											"    pm.expect(parsedRes).to.include.keys(['data']);\r",
+											"    pm.expect(parsedRes.data[0]).to.include.keys(['id']);\r",
+											"    pm.expect(parsedRes.data[0].attributes).to.include.keys(['name']);\r",
+											"});\r",
+											"\r",
+											"const testProject = parsedRes.data.filter(project => project.attributes.name === 'Test Project')[0];\r",
+											"pm.collectionVariables.set(\"adsk_project_id\", testProject.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_two_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/project/v1/hubs/:hub_id/projects",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"project",
+										"v1",
+										"hubs",
+										":hub_id",
+										"projects"
+									],
+									"variable": [
+										{
+											"key": "hub_id",
+											"value": "{{adsk_hub_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/project/v1/hubs/:hub_id/projects/:project_id/topFolders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    pm.expect(parsedRes).to.include.keys(['data']);\r",
+											"    pm.expect(parsedRes.data[0]).to.include.keys(['id', 'attributes']);\r",
+											"    pm.expect(parsedRes.data[0].attributes).to.include.keys(['displayName']);\r",
+											"});\r",
+											"\r",
+											"const projectFilesFolder = parsedRes.data.filter(folder => folder.attributes['displayName'] === 'Project Files')[0];\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_top_folder_id\", projectFilesFolder.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_two_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/project/v1/hubs/:hub_id/projects/:project_id/topFolders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"project",
+										"v1",
+										"hubs",
+										":hub_id",
+										"projects",
+										":project_id",
+										"topFolders"
+									],
+									"variable": [
+										{
+											"key": "hub_id",
+											"value": "{{adsk_hub_id}}"
+										},
+										{
+											"key": "project_id",
+											"value": "{{adsk_project_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "parameters",
+			"item": [
+				{
+					"name": "two-legged",
+					"item": []
+				},
+				{
+					"name": "three-legged",
+					"item": [
+						{
+							"name": "/parameters/v1/accounts/:adsk_hub_id/groups/:adsk_hub_id/collections",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    pm.expect(parsedRes).to.include.keys(['results']);\r",
+											"    pm.expect(parsedRes.results[0]).to.include.keys(['title', 'id']);\r",
+											"});\r",
+											"\r",
+											"const mainLinkModel = parsedRes.results.filter(result => result.title === 'All Parameters')[0];\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_parameter_collection_id\", mainLinkModel.id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/parameters/v1/accounts/{{adsk_hub_id}}/groups/{{adsk_hub_id}}/collections/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"parameters",
+										"v1",
+										"accounts",
+										"{{adsk_hub_id}}",
+										"groups",
+										"{{adsk_hub_id}}",
+										"collections",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "data-exchange",
+			"item": [
+				{
+					"name": "two-legged",
+					"item": []
+				},
+				{
+					"name": "three-legged",
+					"item": [
+						{
+							"name": "/dataexchange/2023-05/graphql - get hubs",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetHub($hubId: ID!) {\r\n  hub(hubId: $hubId) {\r\n    name,\r\n    id\r\n  }\r\n}",
+										"variables": "{\r\n    \"hubId\":\"{{adsk_hub_id}}\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/dataexchange/2023-05/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"dataexchange",
+										"2023-05",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dataexchange/2023-05/graphql - get projects",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetProjects ($hubId: ID!){\r\n  projects(hubId: $hubId) {\r\n      results{\r\n          id\r\n          name\r\n      }\r\n  }\r\n}",
+										"variables": "{\r\n  \"hubId\" : \"{{adsk_hub_id}}\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/dataexchange/2023-05/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"dataexchange",
+										"2023-05",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dataexchange/2023-05/graphql - get topFolders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetTopFolders ($projectId: ID!){\r\n  topFolders(projectId: $projectId) {\r\n      results{\r\n          id\r\n          name\r\n          objectCount\r\n      }\r\n    }\r\n }",
+										"variables": "{\r\n  \"projectId\" : \"{{adsk_dx_project_id}}\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/dataexchange/2023-05/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"dataexchange",
+										"2023-05",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dataexchange/2023-05/graphql - get folders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetFolders ($folderId: ID!){\r\n  folders(folderId: $folderId) {\r\n      results{\r\n          id\r\n          name\r\n          objectCount\r\n      }\r\n    }\r\n }\r\n\r\n",
+										"variables": "{\r\n  \"folderId\" : \"{{adsk_dx_top_folder_id}}\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/dataexchange/2023-05/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"dataexchange",
+										"2023-05",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dataexchange/2023-05/graphql - get folder exchanges",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetFolder ($folderId: ID!){\r\n  folder(folderId: $folderId) {\r\n      id\r\n      name\r\n      exchanges{\r\n          results{\r\n              id\r\n              name\r\n              alternativeRepresentations{\r\n                  fileUrn\r\n              }\r\n          }\r\n      }\r\n    }\r\n }",
+										"variables": "{\r\n  \"folderId\" : \"{{adsk_dx_top_folder_id}}\"\r\n}\r\n"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/dataexchange/2023-05/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"dataexchange",
+										"2023-05",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tandem",
+			"item": [
+				{
+					"name": "two-legged",
+					"item": []
+				},
+				{
+					"name": "three-legged",
+					"item": [
+						{
+							"name": "/tandem/v1/groups",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    pm.expect(parsedRes[0]).to.include.keys(['urn']);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_tandem_group_id\", parsedRes[0].urn);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tandem/v1/groups",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tandem",
+										"v1",
+										"groups"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tandem/v1/groups/:group_id/twins",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"const parsedKeys = Object.keys(parsedRes);\r",
+											"\r",
+											"pm.test(\"Body contains needed keys\", function () {\r",
+											"    pm.expect(parsedKeys.length).to.be.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"const firstKey = parsedKeys[0];\r",
+											"pm.test(\"Body contains needed model keys\", function () {\r",
+											"    const firstLink = parsedRes[`${firstKey}`].links[0];\r",
+											"    pm.expect(firstLink).to.include.keys(['main', 'on', 'modelId', 'label']);\r",
+											"});\r",
+											"\r",
+											"const modelName = pm.collectionVariables.get(\"_adsk_model_name\");\r",
+											"\r",
+											"const mainLinkModel = parsedRes[`${firstKey}`].links.filter(link => link.on && link.main && link.label === modelName)[0];\r",
+											"console.log(`mainLinkModel: ${mainLinkModel} ${JSON.stringify(mainLinkModel)}`);\r",
+											"\r",
+											"pm.collectionVariables.set(\"adsk_tandem_twin_id\", firstKey);\r",
+											"pm.collectionVariables.set(\"adsk_tandem_model_id\", mainLinkModel.modelId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tandem/v1/groups/{{adsk_tandem_group_id}}/twins",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tandem",
+										"v1",
+										"groups",
+										"{{adsk_tandem_group_id}}",
+										"twins"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 /tandem/v1/modelData/:model_id/schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tandem/v1/modelData/{{adsk_tandem_model_id}}/schema",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tandem",
+										"v1",
+										"modelData",
+										"{{adsk_tandem_model_id}}",
+										"schema"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 /tandem/v1/modelData/:model_id/scan",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"includeDeleted\": false,\r\n    \"includeEmpty\": false,\r\n    \"includeFragmentCount\": false,\r\n    \"includeHistory\": false,\r\n    \"skipArrays\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/tandem/v1/modelData/{{adsk_tandem_model_id}}/scan",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tandem",
+										"v1",
+										"modelData",
+										"{{adsk_tandem_model_id}}",
+										"scan"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tandem/v1/twins/:twin_id/views",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											"const parsedKeys = Object.keys(parsedRes);\r",
+											"\r",
+											"//@ToDo: finish thos"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/tandem/v1/groups/{{adsk_tandem_twin_id}}/twins",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"tandem",
+										"v1",
+										"groups",
+										"{{adsk_tandem_twin_id}}",
+										"twins"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "aecdatamodel",
+			"item": [
+				{
+					"name": "two-legged",
+					"item": []
+				},
+				{
+					"name": "three-legged",
+					"item": [
+						{
+							"name": "/aec/graphql GetHubs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const parsedRes = JSON.parse(pm.response.text());\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-id",
+										"value": "{{_adsk_user_id}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "# need AEC Data Model access in ACC: https://aps.autodesk.com/en/docs/aecdatamodel/v1/developers_guide/onboarding/\r\nquery GetHubs {\r\n  hubs {\r\n    results {\r\n      id\r\n      name\r\n    }\r\n  }\r\n}",
+										"variables": "{\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/aec/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"aec",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/aec/graphql - projects by graphql hub id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adsk_access_token_three_legged}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query GetProjects($hubId: ID!) {\r\n         projects(hubId: $hubId) {\r\n          results {\r\n            id\r\n            name\r\n          }\r\n        }\r\n    }",
+										"variables": "{\r\n    \"hubId\":\"{{}}\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/aec/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"aec",
+										"graphql"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Authentication/v2/token - two-legged",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains access_token key\", function () {\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.include.keys(['access_token']);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"adsk_access_token_two_legged\", JSON.parse(pm.response.text()).access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{_adsk_encoded_id_secret}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "data:read",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/authentication/v2/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"authentication",
+						"v2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication/v2/authorize - three-legged",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains access_token key\", function () {\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.include.keys(['access_token']);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"adsk_access_token\", JSON.parse(pm.response.text()).access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{_adsk_redirect_uri}}",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "viewables:read data:read data:write data:create data:search bucket:create bucket:read bucket:update bucket:delete",
+							"type": "string"
+						},
+						{
+							"key": "state",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{_adsk_client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{_adsk_client_id}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://developer.api.autodesk.com/authentication/v2/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://developer.api.autodesk.com/authentication/v2/authorize",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "adsk_auth",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic V0paUzNHdlRON2lzcldhNXpEZEF0Uk92cFdUcjFKOUdCZTVoVExyZDRLQUE4WjgzOkNncmNBblpSeVBqSkFzQUtDUVNYeEd1bzRyVktSOGhRVmlnZGtmOGtnVjQzRFhNR3Q5R1pSN3VlcTdVeXViVHg=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "response_type",
+							"value": "code",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{_adsk_client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{_adsk_redirect_uri}}",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "data:read",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/authentication/v2/authorize",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"authentication",
+						"v2",
+						"authorize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication/v2/token - three-legged step 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains access_token key\", function () {\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.include.keys(['access_token']);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"adsk_access_token_two_legged\", JSON.parse(pm.response.text()).access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{_adsk_encoded_id_secret}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "viewables:read data:read data:write data:create data:search bucket:create bucket:read bucket:update bucket:delete",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "{{adsk_auth_code}}",
+							"type": "text"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{_adsk_redirect_uri}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/authentication/v2/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"authentication",
+						"v2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://developer.api.autodesk.com",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_client_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_client_secret",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_encoded_id_secret",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_redirect_uri",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_adsk_model_name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_access_token_two_legged",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_access_token_three_legged",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_hub_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_project_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_top_folder_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_parameter_collection_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_tandem_group_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_tandem_twin_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_tandem_model_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_model_item_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adsk_model_version_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
